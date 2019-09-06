@@ -18,7 +18,7 @@ reddit = praw.Reddit(user_agent=RAY_USER_AGENT,
 
 # MUST HAVE THESE VALUES BE CORRECT FOR EACH GAME
 game_url = "https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1" # exmaple: 'https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1'
-gdt_url = "https://www.reddit.com/user/double_dose_larry/comments/bxv9lh/darnaud_hrs_june_6_overlay/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
+gdt_url = "https://www.reddit.com/r/tampabayrays/comments/d0fp32/game_chat_96_blue_jays_5586_rays_8359_710_pm/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
 gdt_thread = reddit.submission(url=f"{gdt_url}")
 # starting values
 last_we = .5 

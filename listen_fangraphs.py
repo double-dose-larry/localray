@@ -17,8 +17,8 @@ reddit = praw.Reddit(user_agent=RAY_USER_AGENT,
 
 
 # MUST HAVE THESE VALUES BE CORRECT FOR EACH GAME
-game_url = "https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1" # exmaple: 'https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1'
-gdt_url = "https://www.reddit.com/r/tampabayrays/comments/d0fp32/game_chat_96_blue_jays_5586_rays_8359_710_pm/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
+game_url = "https://www.fangraphs.com/api/play-log/live-results?dateGame=2019-09-07&teamid=12&dh=0" # exmaple: 'https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1'
+gdt_url = "https://www.reddit.com/r/tampabayrays/comments/d0v4jw/game_chat_97_blue_jays_5587_rays_8459_610_pm/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
 gdt_thread = reddit.submission(url=f"{gdt_url}")
 # starting values
 last_we = .5 
@@ -41,6 +41,7 @@ while True:
     except pd.errors.MergeError:
         new_rows = df
 
+    print(new_rows.shape[0], " new events retreived")
     for row in new_rows.itertuples():
         if row.we - last_we > .10:
             print(row.playDesc,last_we,row.we)

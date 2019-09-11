@@ -9,6 +9,17 @@ import requests
 import re
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
+STOPWORDS.add("game")
+STOPWORDS.add("deleted")
+STOPWORDS.add("fuck")
+STOPWORDS.add("fucking")
+STOPWORDS.add("localray")
+STOPWORDS.add("https")
+STOPWORDS.add("reddit")
+STOPWORDS.add("create")
+STOPWORDS.add("wordcloud")
+STOPWORDS.add("commets")
+STOPWORDS.add("imgur")
 # set up a praw instance to use as a listener
 # let's listen to all comments on r/tampabayrays and highlight those that have the word cash in them
 #works
@@ -17,6 +28,7 @@ ray = Ray()
 def create_wordcloud(url):
     print("in create_wordlcoud")
     post = reddit.submission(url=url)
+    post.comments.replace_more()
     gdt_thread_comments = post.comments.list()
     title = "Wordcloud for " + post.title
     print(title)
@@ -28,9 +40,9 @@ def create_wordcloud(url):
                contour_width=3, 
                contour_color='steelblue',
                font_path="font.ttf")
-    print("generating wordcloud")
-    text = ' '.join([ x.body for x in gdt_thread_comments])
-    text = text.replace("_","").replace("\n","").replace("\\", "").replace("∩","").replace("≡","").replace("  ","").replace("~","").replace("/","").replace("‖","")
+    print(f"generating wordcloud using {len(gdt_thread_comments)}")
+    text = ' '.join([ x.body for x in gdt_thread_comments if not isinstance(x,praw.models.MoreComments)])
+    text = text.replace("_","").replace("\n","").replace("\\", "").replace("∩","").replace("≡","").replace("  ","").replace("~","").replace("‖","")
     wc.generate(text)
     wc_file = f"{post.created_utc}_cloud.png"
     wc.to_file(wc_file)
@@ -69,7 +81,7 @@ Otherwise I'll respond with a flappy quote. :)
         try:
             url = re.search("(?P<url>https?://[^\s]+)", comment.body).group("url")
             if 'reddit' in url:
-                return ray.raysay(f"Tring to create a wordcloud for {url}")
+                return ray.raysay(f"Trying to create a wordcloud for {url}")
         except Exception as e:
             #raise e
             return ray.raysay(f"Couldn't do it this time, but here's a piece of advice", quote=True)
@@ -100,7 +112,14 @@ for comment in tb.stream.comments():
             reply = comment.reply(respond(comment))
             if 'wordcloud' in reply.body:
                 final_url = re.search("(?P<url>https?://[^\s]+)", comment.body).group("url")
-                reply.reply(f"[Here is the worldcloud for that post's comments]({create_wordcloud(final_url)})")
+                try:
+
+                    reply.reply(f"[Here is the worldcloud for that post's comments]({create_wordcloud(final_url)})")
+
+                except Exception as e:
+            #raise e
+                   reply.reply(ray.raysay(f"Couldn't do it this time, but here's a piece of advice", quote=True))
+
                 final_url = None
             replied.append(comment.id)
         with open('replied.txt','w') as f:

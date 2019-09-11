@@ -17,8 +17,8 @@ reddit = praw.Reddit(user_agent=RAY_USER_AGENT,
 
 
 # MUST HAVE THESE VALUES BE CORRECT FOR EACH GAME
-game_url = "https://www.fangraphs.com/api/play-log/live-results?dateGame=2019-09-07&teamid=12&dh=0" # exmaple: 'https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1'
-gdt_url = "https://www.reddit.com/r/tampabayrays/comments/d0v4jw/game_chat_97_blue_jays_5587_rays_8459_610_pm/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
+game_url = "https://www.fangraphs.com/api/play-log/live-results?dateGame=2019-09-10&teamid=12&dh=0" # exmaple: 'https://www.fangraphs.com/api/play-log/past-results?dateGame=2019-09-03&teamid=12&dh=1'
+gdt_url = "https://www.reddit.com/r/tampabayrays/comments/d26j6y/game_chat_910_rays_8659_rangers_7273_805_pm/" # example: 'https://www.reddit.com/r/tampabayrays/comments/czzuhe/game_chat_95_blue_jays_5585_rays_8259_710_pm/'
 gdt_thread = reddit.submission(url=f"{gdt_url}")
 # starting values
 last_we = .5 
@@ -43,14 +43,15 @@ while True:
 
     print(new_rows.shape[0], " new events retreived")
     for row in new_rows.itertuples():
-        if row.we - last_we > .10:
-            print(row.playDesc,last_we,row.we)
-            reply_que.append(ray.raysay(f"{row.playDesc}\n Woo!! our chances of winning are now {row.we:.2%}"))
-            last_we = row.we
-        if row.we - last_we < -.10:
-            print(row.playDesc,last_we,row.we)
-            reply_que.append(ray.raysay(f"{row.playDesc}\n Oh No!! our chances of winning are now {row.we:.2%}"))
-            last_we = row.we
+        we=1-row.we
+        if we - last_we > .15:
+            print(row.playDesc,last_we,we)
+            reply_que.append(ray.raysay(f"{row.playDesc}\n Woo!! our chances of winning are now {we:.2%}"))
+            last_we = we
+        if we - last_we < -.15:
+            print(row.playDesc,last_we,we)
+            reply_que.append(ray.raysay(f"{row.playDesc}\n Oh No!! our chances of winning are now {we:.2%}"))
+            last_we =we
     if len(reply_que) > 0:
         next_reply = reply_que.pop(0)
         print(next_reply)

@@ -76,7 +76,7 @@ that's it for now, but many more abilities to come... hopefully.
 
 Otherwise I'll respond with a flappy quote. :)
 """)
-    elif 'wordcloud' in comment.body:
+    elif 'wordcloud' in comment.body.lower():
         print("starting wordcloud")
         try:
             url = re.search("(?P<url>https?://[^\s]+)", comment.body).group("url")
@@ -85,7 +85,8 @@ Otherwise I'll respond with a flappy quote. :)
         except Exception as e:
             #raise e
             return ray.raysay(f"Couldn't do it this time, but here's a piece of advice", quote=True)
-        
+    elif '🍝' in comment.body.lower():
+        return ray.raysay("I still don't understand how this Rays team is in a playoff position. They're not as good of a team as Oakland or Cleveland. Their lineup is a joke, they look like a 1970s offense in an era where power pitching and power hitting reigns supreme. They scored TWO runs in 12 innings against the likes of Tarpley, Cessa, Lyons, Gearrin, and Montgomery who just returned from TJS? Their pitching staff is literally just Morton and a bunch of middle relief guys that somehow string together game after game. Combine that with their home ballpark, they are the definition of boring. I don't want this team in the playoffs because they're just so unlikable. At least Cleveland and Oakland have real talent.", length=100)
     else:
         return ray.raysay("I'm not sure, but here's a quote that may shed some insight",quote=True)
 

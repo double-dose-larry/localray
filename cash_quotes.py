@@ -1,0 +1,1 @@
+quotes = ["Oakland, Boston, New York, Cleveland, one other club. Were we good enough? You're goddamn right we are. Let's fucking do this!"]

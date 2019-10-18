@@ -7,6 +7,7 @@ import random
 import os
 import requests
 import re
+import datetime
 from wordcloud import WordCloud, STOPWORDS, ImageColorGenerator
 
 STOPWORDS.add("game")
@@ -85,8 +86,42 @@ Otherwise I'll respond with a flappy quote. :)
         except Exception as e:
             #raise e
             return ray.raysay(f"Couldn't do it this time, but here's a piece of advice", quote=True)
-    elif '🍝' in comment.body.lower():
+    elif '🍝' in comment.body:
         return ray.raysay("I still don't understand how this Rays team is in a playoff position. They're not as good of a team as Oakland or Cleveland. Their lineup is a joke, they look like a 1970s offense in an era where power pitching and power hitting reigns supreme. They scored TWO runs in 12 innings against the likes of Tarpley, Cessa, Lyons, Gearrin, and Montgomery who just returned from TJS? Their pitching staff is literally just Morton and a bunch of middle relief guys that somehow string together game after game. Combine that with their home ballpark, they are the definition of boring. I don't want this team in the playoffs because they're just so unlikable. At least Cleveland and Oakland have real talent.", length=100)
+    elif 'balk' in comment.body.lower():
+        return ray.raysay("""Balk Rules
+
+You can't just be up there and just doin' a balk like that.
+
+1a. A balk is when you
+
+1b. Okay well listen. A balk is when you balk the
+
+1c. Let me start over
+
+1c-a. The pitcher is not allowed to do a motion to the, uh, batter, that prohibits the batter from doing, you know, just trying to hit the ball. You can't do that.
+
+1c-b. Once the pitcher is in the stretch, he can't be over here and say to the runner, like, "I'm gonna get ya! I'm gonna tag you out! You better watch your butt!" and then just be like he didn't even do that.
+
+1c-b(1). Like, if you're about to pitch and then don't pitch, you have to still pitch. You cannot not pitch. Does that make any sense?
+
+1c-b(2). You gotta be, throwing motion of the ball, and then, until you just throw it.
+
+1c-b(2)-a. Okay, well, you can have the ball up here, like this, but then there's the balk you gotta think about.
+
+1c-b(2)-b. Fairuza Balk hasn't been in any movies in forever. I hope she wasn't typecast as that racist lady in American History X.
+
+1c-b(2)-b(i). Oh wait, she was in The Waterboy too! That would be even worse.
+
+1c-b(2)-b(ii). "get in mah bellah" -- Adam Water, "The Waterboy." Haha, classic...
+
+1c-b(3). Okay seriously though. A balk is when the pitcher makes a movement that, as determined by, when you do a move involving the baseball and field of
+
+Do not do a balk please""", length=80)
+    elif 'cash' in comment.body.lower():
+        return ray.raysay("Oakland, Boston, New York, Cleveland, one other club. Were we good enough? You're goddamn right we are. Let's fucking do this! -- Kevin Cash")
+    elif 'countdown' in comment.body.lower():
+        return ray.raysay(f"Rays 2020 season starts on March 26th, {(datetime.date(2020,3,26) - datetime.date.today()).days} days away.")
     else:
         return ray.raysay("I'm not sure, but here's a quote that may shed some insight",quote=True)
 
@@ -106,7 +141,7 @@ with open('replied.txt', 'r') as f:
 
 for comment in tb.stream.comments():
     print(comment.parent_id, comment.author, "says", comment.body)
-    if 'localray' in comment.body.lower() and comment.author != 'localray':
+    if '!localray' in comment.body.lower() and comment.author != 'localray':
         print ("*"*20,"\nlocalray is here to answer your questions\n","*"*20)
         if comment.id not in replied:
             print("new comment")
